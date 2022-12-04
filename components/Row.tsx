@@ -6,6 +6,7 @@ export default function Row(props: { children: any }) {
         gap: "1rem",
         marginBottom: "0.75rem",
         alignItems: "center",
+        flexWrap: "wrap",
       }}
     >
       {props.children}

@@ -11,7 +11,7 @@ interface StartProps {
 
 export default function Start(props: StartProps) {
   const { data, loading, error, fetchData, lastFetched } = useFetch<
-    { currentState: string, previousState: string, success: boolean }
+    { currentState: string; previousState: string; success: boolean }
   >(
     props.endpointUrl,
   );

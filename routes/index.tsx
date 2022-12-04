@@ -2,7 +2,6 @@ import { Head } from "$fresh/runtime.ts";
 import { HandlerContext, Handlers, PageProps } from "$fresh/server.ts";
 import { getCookies } from "https://deno.land/std@0.167.0/http/cookie.ts";
 import Status from "../islands/Status.tsx";
-import { config } from "https://deno.land/std@0.167.0/dotenv/mod.ts";
 import Start from "../islands/Start.tsx";
 import Stop from "../islands/Stop.tsx";
 
@@ -13,7 +12,7 @@ interface HomeRouteData {
 }
 
 export const handler: Handlers = {
-  async GET(req: Request, ctx: HandlerContext) {
+  GET(req: Request, ctx: HandlerContext) {
     const url = new URL(req.url);
 
     const cookies = getCookies(req.headers);
@@ -22,12 +21,14 @@ export const handler: Handlers = {
       return Response.redirect(`${url.origin}/login`);
     }
 
-    const env = await config();
+    const statusEndpointUrl = Deno.env.get("LAMBDA_STATUS_URL") ?? "";
+    const startEndpointUrl = Deno.env.get("LAMBDA_START_URL") ?? "";
+    const stopEndpointUrl = Deno.env.get("LAMBDA_STOP_URL") ?? "";
 
     return ctx.render({
-      statusEndpointUrl: env.LAMBDA_STATUS_URL ?? "",
-      startEndpointUrl: env.LAMBDA_START_URL ?? "",
-      stopEndpointUrl: env.LAMBDA_STOP_URL ?? "",
+      statusEndpointUrl,
+      startEndpointUrl,
+      stopEndpointUrl,
     });
   },
 };

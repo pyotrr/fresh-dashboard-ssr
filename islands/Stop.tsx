@@ -11,8 +11,8 @@ interface StopProps {
 
 export default function Stop(props: StopProps) {
   const { data, loading, error, fetchData, lastFetched } = useFetch<
-    { currentState: string, previousState: string, success: boolean }
-    >(
+    { currentState: string; previousState: string; success: boolean }
+  >(
     props.endpointUrl,
   );
 

@@ -1,12 +1,9 @@
 import { HandlerContext, Handlers, PageProps } from "$fresh/server.ts";
-import { config } from "https://deno.land/std@0.167.0/dotenv/mod.ts";
 import {
   getCookies,
   setCookie,
 } from "https://deno.land/std@0.167.0/http/cookie.ts";
 import { Head } from "$fresh/runtime.ts";
-
-const env = await config();
 
 enum LoginErrors {
   WRONG_PASSWORD = "WRONG_PASSWORD",
@@ -32,7 +29,7 @@ export const handler: Handlers = {
     const res = await _req.formData();
     const password = res.get("password");
 
-    if (password === env.PASSWORD) {
+    if (password === Deno.env.get("PASSWORD")) {
       const headers = new Headers();
       setCookie(headers, {
         name: "authenticated",
